@@ -392,7 +392,7 @@ def main():
     set_up_logging(args)
     t = Tester(args.tool, args.program, args.baselines, True, args.jobs, args.validate)
     t.execute()
-    print(f'total time: {time.monotonic() - start}')
+    logger.info(f'total time: {time.monotonic() - start}')
 
 if __name__ == '__main__':
     main()
