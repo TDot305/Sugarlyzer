@@ -154,8 +154,12 @@ class Alarm:
 
             found = False
             for l in lines_to_reverse_iterate_over:
-                if mat := re.search(r"(.*)//\s?M:L(\d*):L(\d*)$", l.strip()):
+                l = l.strip()
+                # Only consider the last 1000 characters since static renamings can be multiple million characters long.
+                if re.search(r"//\s?M:L(\d*):L(\d*)$", l[-1000:]):
                     found = True
+                    # Function defs are not overly long. Can therefore now match on the whole string.
+                    mat = re.search(r"(.*)//\s?M:L(\d*):L(\d*)$", l)
                     self.__function_line_range = (mat.group(1), IntegerRange(int(mat.group(2)), int(mat.group(3))))
                     break
             if not found:
